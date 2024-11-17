@@ -1,0 +1,42 @@
+.user-container {
+  background-color: white;
+  box-shadow: 0px 0px 6px #ccc;
+  width: 300px;
+  height: max-content;
+  text-align: left;
+  padding: 0px 10px;
+  width: 30%;
+  box-sizing: border-box;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px !important;
+}
+
+hr {
+  color: #ccc;
+}
+
+.user-info img {
+  width: 70px;
+  height: 60px;
+  margin-right: 10px;
+}
+
+.user-info h3 {
+  font-size: 16px;
+}
+
+.user-info h4 {
+  color: #888888;
+  margin-top: -10px;
+  font-size: 14px;
+}
+
+.profile-info p {
+  display: flex;
+  justify-content: space-between;
+  color: #8b8989;
+}
