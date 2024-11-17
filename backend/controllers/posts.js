@@ -1,5 +1,5 @@
-import Post from '../model/Post';
-import User from '../model/User';
+import Post from '../model/Post.js';
+import User from '../model/User.js';
 
 // @desc    GET feed posts
 // @route   GET /api/posts/
@@ -13,6 +13,7 @@ const addPost = async (req, res) => {
     const post = new Post({
       userId,
       userName: user.name,
+      content,
       likes: {},
       comments: [],
     });
@@ -75,4 +76,4 @@ const likePost = async (req, res) => {
   }
 };
 
-export { getFeedPosts, getUserPosts, likePost };
+export { addPost, getFeedPosts, getUserPosts, likePost };

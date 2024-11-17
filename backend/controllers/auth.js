@@ -10,7 +10,7 @@ const signup = async (req, res) => {
     const { name, username, password, friends } = req.body;
 
     // Check if user already exist
-    const existUser = await User.find({ username });
+    const existUser = await User.findOne({ username });
 
     if (existUser) {
       return res.status(409).json({ msg: 'User already exists' });
