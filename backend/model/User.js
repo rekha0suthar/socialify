@@ -1,0 +1,70 @@
+import { Schema, model } from 'mongoose';
+import bcrypt from 'bcrypt';
+
+const userSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  friends: {
+    type: Array,
+    default: [],
+  },
+  viewProfile: {
+    type: Number,
+  },
+  impressions: {
+    type: Number,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  lastLoggedAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+userSchema.pre('save', function (next) {
+  if (!this.isModified('password')) {
+    return next();
+  }
+  const salt = bcrypt.genSalt();
+  this.password = bcrypt.hashSync(this.password, salt);
+  next();
+});
+
+userSchema.methods.checkPassword = async function (password) {
+  try {
+    const match = await bcrypt.compare(password, this.password);
+    return match;
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+};
+
+userSchema.methods.updateLoggedIn = function () {
+  return this.model('User').findOneAndUpdate(
+    {
+      username: this.username,
+    },
+    {
+      lastLoggedAt: new Date(),
+    }
+  );
+};
+
+const User = model('User', userSchema);
+
+export default User;
