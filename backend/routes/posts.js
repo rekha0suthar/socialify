@@ -13,6 +13,6 @@ router.post('/', verifytoken, addPost);
 router.get('/', verifytoken, getFeedPosts);
 router.get('/:userId', verifytoken, getUserPosts);
 
-router.patch('/:id/like', verifytoken, likePost);
+router.put('/:id/like', verifytoken, likePost);
 
 export default router;
