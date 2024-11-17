@@ -15,7 +15,6 @@ const ContextProvider = ({ children }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState({});
-  const [liked, setLiked] = useState(false);
   const [isFriend, setIsFriend] = useState(false);
 
   const navigate = useNavigate();
@@ -128,7 +127,6 @@ const ContextProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response);
       setPosts(response.data);
     } catch (err) {
       console.error(err);
@@ -137,7 +135,8 @@ const ContextProvider = ({ children }) => {
 
   const likeOrUnlikePost = async (postId) => {
     try {
-      const response = await axios.patch(
+      // Send the PUT request to like/unlike the post
+      const response = await axios.put(
         `${BASE_API_URL}/posts/${postId}/like`,
         { userId },
         {
@@ -146,11 +145,18 @@ const ContextProvider = ({ children }) => {
           },
         }
       );
-      console.log(response);
-      setLiked(!liked);
-      getFeedPosts();
+
+      // Get the updated post from the server response
+      const updatedPost = response.data;
+
+      // Optionally update the specific post in the feed without re-fetching everything
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post._id === updatedPost._id ? updatedPost : post
+        )
+      );
     } catch (err) {
-      console.error(err);
+      console.error('Error toggling like:', err.message);
     }
   };
 
@@ -178,8 +184,7 @@ const ContextProvider = ({ children }) => {
         addPost,
         getFeedPosts,
         likeOrUnlikePost,
-        liked,
-        setLiked,
+
         isFriend,
         setIsFriend,
       }}

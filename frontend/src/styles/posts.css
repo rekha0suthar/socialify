@@ -1,0 +1,16 @@
+.post-container {
+  width: 50%;
+}
+
+.post-container .dummy-msg {
+  text-align: center;
+  font-weight: bold;
+  font-size: 24px;
+  margin-top: 200px;
+}
+
+@media screen and (max-width: 768px) {
+  .post-container {
+    margin: 50px 20px;
+  }
+}
